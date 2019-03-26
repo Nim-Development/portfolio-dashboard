@@ -25,10 +25,10 @@ class ImageController extends Controller
             foreach($request->file as $key => $file){
                 $filename = $file->getClientOriginalName();
                 $filesize = $file->getClientSize();
-                $filepath = 'public/upload'.$filename;
+                $filepath = '/storage/upload/'.$filename;
             
                 //store the file
-                $file->storeAs('public/upload',$filename);
+                $file->storeAs('public/upload/',$filename);
     
                     //save file to db
                     $image = new Image();

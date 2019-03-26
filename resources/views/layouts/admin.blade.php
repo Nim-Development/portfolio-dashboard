@@ -48,19 +48,19 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li class="nav-item active">
+                <li class="nav-item {{ (Route::currentRouteName() == 'add.project' ) ? 'active' : '' }}">
                   <a class="nav-link" href="{{ route('add.project') }}">
                     <i class="material-icons">fiber_new</i>
                     <p>New Project</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ (Route::currentRouteName() == 'image.view' ) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('image.view') }}">
                     <i class="material-icons">fiber_new</i>
                     <p>New Image</p>
                     </a>
                 </li>
-                  <li class="nav-item ">
+                  <li class="nav-item {{ (Route::currentRouteName() == 'list' ) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('list') }}">
                     <i class="material-icons">list</i>
                     <p>List Projects</p>

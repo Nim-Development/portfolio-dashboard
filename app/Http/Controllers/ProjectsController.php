@@ -41,6 +41,57 @@ class ProjectsController extends Controller
         return view('add')->with('suc', true);
     }
 
+    // EndPost
+    /*
+    *
+    *
+    */
+    // Put
+    public function edit(Request $request, $id){
+        $request->validate([
+            'title' => 'required',
+            'desc' => 'required',
+            'height' => 'required',
+            'flex' => 'required',
+        ]);
+        $project = Project::find($id);
+            $project->title = $request->title;
+            $project->desc = $request->desc;
+            $project->height = $this->pxer($request->height);
+            $project->flex = $request->flex;
+            $project->show = false;
+            $project->live = $request->live ? $request->live : null;
+            $project->github = $request->live ? $request->github : null;
+        $project->save();
+
+           
+
+        foreach($project->links as $l){
+            $link = Link::find($l->id);
+            if($l->icon == 'web'){
+                //update web link
+                $link->link = $request->live;
+                $link->save();
+            }
+            if($l->icon == 'code'){
+                //update github link
+                $link->link = $request->github;
+                $link->save();
+            }
+        }
+        return redirect(route('single.project', $project->id));
+    }
+    // EndPut
+    /*
+    *
+    *
+    */
+    // Delete
+
+    // EndDelete
+
+
+    /* Helpers */
     private function store_links($pid ,$live, $github){
         /*::nk Make all values dynamic later */
         
@@ -67,41 +118,6 @@ class ProjectsController extends Controller
         }
     }
 
-    // EndPost
-    /*
-    *
-    *
-    */
-    // Put
-    public function edit(Request $request, $id){
-        $request->validate([
-            'title' => 'required',
-            'desc' => 'required',
-            'height' => 'required',
-            'flex' => 'required',
-        ]);
-        $project = Project::find($id);
-            $project->title = $request->title;
-            $project->desc = $request->desc;
-            $project->height = $this->pxer($request->height);
-            $project->flex = $request->flex;
-            $project->show = false;
-            $project->live = $request->live ? $request->live : null;
-            $project->github = $request->live ? $request->github : null;
-        $project->save();
-        return view('edit', compact('project'))->with('suc', true);
-    }
-    // EndPut
-    /*
-    *
-    *
-    */
-    // Delete
-
-    // EndDelete
-
-
-    /* Helpers */
     private function pxer($str){
         if(substr($str, -2) != 'px'){
             return $str.'px';

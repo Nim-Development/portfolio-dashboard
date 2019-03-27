@@ -54,23 +54,17 @@
                             </div>
 
                             <!-- Links -->
-                            
                             <div class="col-md-12">
-                            @foreach($project->links as $link)
-                                @if($link->icon == "web")
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Links</label>
-                                    <input type="text" class="form-control" placeholder="Live project" value="{{ $link->link }}" name="live">
+                                    <input type="text" class="form-control" placeholder="Live project" value="{{ $project->links[0]->link }}" name="live">
                                 </div>
                             </div>
-                                @else
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Github" value="{{ $link->link }}" name="github">
-                                    </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Github" value="{{ $project->links[1]->link }}" name="github">
                                 </div>
-                                @endif
-                            @endforeach
+                            </div>
                             
                             <br><br>  <br>
                             <button type="submit" class="btn btn-primary btn-block">Update Profile</button>

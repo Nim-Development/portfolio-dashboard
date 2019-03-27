@@ -64,18 +64,17 @@ class ProjectsController extends Controller
             $project->github = $request->live ? $request->github : null;
         $project->save();
 
-           
-
+        //::nk Messy, use proper logics.
         foreach($project->links as $l){
             $link = Link::find($l->id);
             if($l->icon == 'web'){
                 //update web link
-                $link->link = $request->live;
+                $link->link = $request->live ? $request->live : '';
                 $link->save();
             }
             if($l->icon == 'code'){
                 //update github link
-                $link->link = $request->github;
+                $link->link = $request->github ? $request->github : '';
                 $link->save();
             }
         }
@@ -96,26 +95,22 @@ class ProjectsController extends Controller
         /*::nk Make all values dynamic later */
         
         //Live
-        if($live){
-            $link = new Link();
-                $link->project_id = $pid;
-                $link->link = $live;
-                $link->tooltip = "View live project";
-                $link->color = "red mb-1";
-                $link->icon = "web";
-            $link->save();
-        }
+        $link = new Link();
+            $link->project_id = $pid;
+            $link->link = ($live)? $live : '';
+            $link->tooltip = "View live project";
+            $link->color = "red mb-1";
+            $link->icon = "web";
+        $link->save();
 
         //Github
-        if($github){
-            $link = new Link();
-                $link->project_id = $pid;
-                $link->link = $github;
-                $link->tooltip = "View code";
-                $link->color = "indigo mb-1";
-                $link->icon = "code";
-            $link->save();
-        }
+        $link = new Link();
+            $link->project_id = $pid;
+            $link->link = ($github)?$github:'';
+            $link->tooltip = "View code";
+            $link->color = "indigo mb-1";
+            $link->icon = "code";
+        $link->save();
     }
 
     private function pxer($str){

@@ -21,8 +21,8 @@ class ProjectResource extends JsonResource
             "images" => $this->images,
             "height" => $this->height,
             "flex" => $this->flex,
-            "live" => $this->live,
-            "github" =>	$this->github,
+            "show" => $this->show,
+            "links" => $this->links,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project;
+use App\Link;
 
 class ProjectsController extends Controller
 {
@@ -28,13 +29,44 @@ class ProjectsController extends Controller
         $project = new Project();
             $project->title = $request->title;
             $project->desc = $request->desc;
+            $project->show = false;
             $project->height = $this->pxer($request->height);
             $project->flex = $request->flex;
-            $project->live = $request->live ? $request->live : null;
-            $project->github = $request->live ? $request->github : null;
+
         $project->save();
+
+        //Store links
+        $this->store_links($project->id ,$request->live, $request->github);
+
         return view('add')->with('suc', true);
     }
+
+    private function store_links($pid ,$live, $github){
+        /*::nk Make all values dynamic later */
+        
+        //Live
+        if($live){
+            $link = new Link();
+                $link->project_id = $pid;
+                $link->link = $live;
+                $link->tooltip = "View live project";
+                $link->color = "red mb-1";
+                $link->icon = "web";
+            $link->save();
+        }
+
+        //Github
+        if($github){
+            $link = new Link();
+                $link->project_id = $pid;
+                $link->link = $github;
+                $link->tooltip = "View code";
+                $link->color = "indigo mb-1";
+                $link->icon = "code";
+            $link->save();
+        }
+    }
+
     // EndPost
     /*
     *
@@ -53,6 +85,7 @@ class ProjectsController extends Controller
             $project->desc = $request->desc;
             $project->height = $this->pxer($request->height);
             $project->flex = $request->flex;
+            $project->show = false;
             $project->live = $request->live ? $request->live : null;
             $project->github = $request->live ? $request->github : null;
         $project->save();
